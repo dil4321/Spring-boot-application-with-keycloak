@@ -1,0 +1,50 @@
+server:
+  port: 8085
+  max-http-request-header-size: 20000
+
+spring:
+  application:
+    name: kcapplication
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/KC_SB_APPLICATION?createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Asia/Calcutta
+        format_sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:8080/realms/SBApplication
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+rest:
+  sbapplication:
+    realm: SBAppliaction
+    admin_id: admin-user
+    admin_secret:
+    client_id: client-user
+    jwk_set-uri: ${rest.service.url}realms/${rest.sbapplication.realm}/${rest.service.jwk_path}
+  service:
+    url: http://localhost:8080/
+    username: admin
+    password: admin
+    jwk_path: protocol/openid-connect/certs
+
+keycloak:
+  realm-name: SBApplication
+  admin-username: admin
+  admin-password: admin
+  client-id: sbadmin
+  client-secret: WQ5rX0ER0a1p5ClP1BpVDOUDXvskVFdl
+  server-url: http://127.0.0.1:8080
